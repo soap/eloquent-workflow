@@ -1,17 +1,17 @@
 {
-    "name": ":vendor_slug/:package_slug",
-    "description": ":package_description",
+    "name": "soap/eloquent-workflow",
+    "description": "Simple states and transitions workflow for Laravel Eloquent",
     "keywords": [
-        ":vendor_name",
+        "soap",
         "laravel",
-        ":package_slug"
+        "eloquent-workflow"
     ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "homepage": "https://github.com/soap/eloquent-workflow",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Prasit Gebsaap",
+            "email": "prasit.gebsaap@gmail.com",
             "role": "Developer"
         }
     ],
@@ -35,13 +35,13 @@
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories"
+            "Soap\\EloquentWorkflow\\": "src",
+            "Soap\\EloquentWorkflow\\Database\\Factories\\": "database/factories"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests"
+            "Soap\\EloquentWorkflow\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -61,10 +61,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
+                "Soap\\EloquentWorkflow\\EloquentWorkflowServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\Facades\\Skeleton"
+                "EloquentWorkflow": "Soap\\EloquentWorkflow\\Facades\\EloquentWorkflow"
             }
         }
     },
