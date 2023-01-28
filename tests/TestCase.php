@@ -5,6 +5,7 @@ namespace Soap\EloquentWorkflow\Tests;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Soap\EloquentWorkflow\EloquentWorkflowServiceProvider;
+use Illuminate\Database\Schema\Blueprint;
 
 class TestCase extends Orchestra
 {
@@ -35,13 +36,12 @@ class TestCase extends Orchestra
             'prefix' => '',
         ]);
         
-        $migration = include __DIR__.'/../database/migrations/create_transition_logs_table.php.stub';
-        $migration->up();
-        
     }
 
     protected function setUpDatabase()
     {
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+
         $this->app->get('db')->connection()->getSchemaBuilder()->create('test_models', function (Blueprint $table) {
             $table->increments('id');
             $table->string('state')->nullable();
