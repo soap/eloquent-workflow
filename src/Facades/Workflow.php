@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Facade;
 /**
  * @see \Soap\EloquentWorkflow\EloquentWorkflow
  */
-class EloquentWorkflow extends Facade
+class Workflow extends Facade
 {
     protected static function getFacadeAccessor()
     {
