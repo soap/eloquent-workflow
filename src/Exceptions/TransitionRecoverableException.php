@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Codewiser\Workflow\Exceptions;
+namespace Soap\EloquentWorkflow\Exceptions;
 
 use Throwable;
 

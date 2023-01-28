@@ -4,7 +4,7 @@ namespace Soap\EloquentWorkflow\Listeners;
 
 use Soap\EloquentWorkflow\Events\ModelInitialized;
 use Soap\EloquentWorkflow\Events\ModelTransited;
-use Soap\EloquentWorkflow\Models\TransitionHistory;
+use Soap\EloquentWorkflow\Models\TransitionLog;
 use Soap\EloquentWorkflow\State;
 use Soap\EloquentWorkflow\StateMachineEngine;
 use Soap\EloquentWorkflow\Value;
@@ -13,9 +13,9 @@ use Illuminate\Validation\ValidationException;
 
 class TransitionListener
 {
-    protected function newRecordFor(Model $model, StateMachineEngine $engine): TransitionHistory
+    protected function newRecordFor(Model $model, StateMachineEngine $engine): TransitionLog
     {
-        $log = new TransitionHistory;
+        $log = new TransitionLog;
 
         $log->transitionable()->associate($model);
         $log->blueprint = get_class($engine->blueprint);

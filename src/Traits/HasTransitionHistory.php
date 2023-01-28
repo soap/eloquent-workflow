@@ -2,7 +2,7 @@
 
 namespace Soap\EloquentWorkflow\Traits;
 
-use Soap\EloquentWorkflow\Models\TransitionHistory;
+use Soap\EloquentWorkflow\Models\TransitionLog;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -10,12 +10,12 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 /**
  * @mixin Model
  *
- * @property-read Collection|TransitionHistory[] $transitions
+ * @property-read Collection|TransitionLog[] $transitions
  */
-trait HasTransitionHistory
+trait HasTransitionLog
 {
     public function transitions(): MorphMany
     {
-        return $this->morphMany(TransitionHistory::class, 'transitionable');
+        return $this->morphMany(TransitionLog::class, 'transitionable');
     }
 }

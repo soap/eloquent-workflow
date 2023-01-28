@@ -27,7 +27,7 @@ use Illuminate\Support\Carbon;
  * @property-read Authenticatable|null $performer
  * @property-read Model $transitionable
  */
-class TransitionLogs extends Model
+class TransitionLog extends Model
 {
     protected $table = 'transition_logs';
 
