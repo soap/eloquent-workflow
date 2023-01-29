@@ -34,7 +34,7 @@ class EloquentWorkflowServiceProvider extends PackageServiceProvider
 
     public function bootingPackage()
     {
-        if (config('eloqent-workflow.workflow.logs')) {
+        if (config('eloquent-workflow.workflow.logging')) {
             Event::listen(ModelInitialized::class, [TransitionListener::class, 'handleModelInitialized']);
             Event::listen(ModelTransited::class, [TransitionListener::class, 'handleModelTransited']);
         }

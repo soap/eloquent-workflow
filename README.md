@@ -513,7 +513,7 @@ Run migrations:
 
     php artisan migrate
 
-Add `workflow.logging` into `config/services.php`:
+Edit `workflow.logging` into `config/eloquent-workflow.php`:
 
 ```php
     'workflow' => [
@@ -523,9 +523,9 @@ Add `workflow.logging` into `config/services.php`:
 
 It's done.
 
-To get historical records, add `\Soap\EloquentWorkflow\Traits\HasTransitionHistory` to `Model` with workflow. It brings `transitions` relation.
+To get logging records, add `\Soap\EloquentWorkflow\Traits\HasTransitionLog` to `Model` with workflow. It brings `transitions` relation.
 
-Historical records presented by `\Soap\EloquentWorkflow\Models\TransitionHistory` model, that holds information about transition performer, source and target states and a context, if it were provided.
+Historical records presented by `\Soap\EloquentWorkflow\Models\TransitionLog` model, that holds information about transition performer, source and target states and a context, if it were provided.
 
 ### Blueprint Validation
 
