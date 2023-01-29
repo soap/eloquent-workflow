@@ -16,7 +16,7 @@ class EloquentWorkflowValidateCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'eloquent-workflow:validate {class=}';
+    protected $signature = 'eloquent-workflow:validate {class}';
 
     /**
      * The console command description.
@@ -32,8 +32,8 @@ class EloquentWorkflowValidateCommand extends Command
      */
     public function handle(): int
     {
-        $class = $this->option('class');
-        $className = $this->classDiscover($this->option('class'));
+        $class = $this->argument('class');
+        $className = $this->classDiscover($this->argument('class'));
 
         if (!$className) {
             $this->error("$class Not Found");

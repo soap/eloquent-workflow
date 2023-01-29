@@ -37,8 +37,8 @@ class EloquentWorkflowShowCommand extends Command
      */
     public function handle(): int
     {
-        $class = $this->option('class');
-        $className = $this->classDiscover($this->option('class'));
+        $class = $this->argument('class');
+        $className = $this->classDiscover($this->argument('class'));
 
         if (!$className) {
             $this->error("$class Not Found");
