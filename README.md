@@ -70,7 +70,7 @@ Transitions between states inflicts the evolution road.
 First, describe the workflow blueprint with available states and transitions:
 
 ```php
-class ArticleWorkflow extends \Codewiser\Workflow\WorkflowBlueprint
+class ArticleWorkflow extends \Soap\EloquentWorkflow\WorkflowBlueprint
 {
     public function states(): array
     {
@@ -99,13 +99,13 @@ class ArticleWorkflow extends \Codewiser\Workflow\WorkflowBlueprint
 Next, include trait and create method to bind a blueprint to model's attribute.
 
 ```php
-use \Codewiser\Workflow\Example\Enum;
-use \Codewiser\Workflow\Example\ArticleWorkflow;
-use \Codewiser\Workflow\StateMachineEngine;
+use \Soap\EloquentWorkflow\Example\Enum;
+use \Soap\EloquentWorkflow\Example\ArticleWorkflow;
+use \Soap\EloquentWorkflow\StateMachineEngine;
 
 class Article extends Model
 {
-    use \Codewiser\Workflow\Traits\HasWorkflow;
+    use \Soap\EloquentWorkflow\Traits\HasWorkflow;
     
     public function state(): StateMachineEngine
     {
@@ -121,10 +121,10 @@ That's it.
 Workflow observes Model and keeps state machine consistency healthy.
 
 ```php
-use \Codewiser\Workflow\Example\Enum;
+use \Soap\EloquentWorkflow\Example\Enum;
 
 // creating: will set proper initial state
-$article = new \Codewiser\Workflow\Example\Article();
+$article = new \Soap\EloquentWorkflow\Example\Article();
 $article->save();
 assert($article->state == 'new');
 
@@ -140,10 +140,10 @@ assert($article->state == 'review');
 In an example above we describe blueprint with scalar values, but actually they will be transformed to the objects. Those objects bring some additional functionality to the states and transitions, such as caption translations, transit authorization, routing rules etc...
 
 ```php
-use \Codewiser\Workflow\State;
-use \Codewiser\Workflow\Transition;
+use \Soap\EloquentWorkflow\State;
+use \Soap\EloquentWorkflow\Transition;
 
-class ArticleWorkflow extends \Codewiser\Workflow\WorkflowBlueprint
+class ArticleWorkflow extends \Soap\EloquentWorkflow\WorkflowBlueprint
 {
     public function states(): array
     {
@@ -176,7 +176,7 @@ As model's actions are not allowed to any user, as changing state is not allowed
 Provide ability name:
 
 ```php
-use \Codewiser\Workflow\Transition;
+use \Soap\EloquentWorkflow\Transition;
 
 Transition::make('new', 'review')
     ->authorizedBy('transit');
@@ -185,7 +185,7 @@ Transition::make('new', 'review')
 #### Using Closure
 
 ```php
-use \Codewiser\Workflow\Transition;
+use \Soap\EloquentWorkflow\Transition;
 use \Illuminate\Support\Facades\Gate;
 
 Transition::make('new', 'review')
@@ -197,7 +197,7 @@ Transition::make('new', 'review')
 To get only transitions, authorized to the current user, use `authorized` method of `TransitionCollection`:
 
 ```php
-$article = new \Codewiser\Workflow\Example\Article();
+$article = new \Soap\EloquentWorkflow\Example\Article();
 
 $transitions = $article->state()
     // Get transitions from model's current state.
@@ -211,7 +211,7 @@ $transitions = $article->state()
 When accepting user request, do not forget to authorize workflow state changing.
 
 ```php
-public function update(Request $request, \Codewiser\Workflow\Example\Article $article)
+public function update(Request $request, \Soap\EloquentWorkflow\Example\Article $article)
 {
     $this->authorize('update', $article);
     
@@ -239,8 +239,8 @@ To disable transition, prerequisite should throw a `TransitionRecoverableExcepti
 Here is an example of issues user may resolve.
 
 ```php
-use \Codewiser\Workflow\Transition;
-use \Codewiser\Workflow\Exceptions\TransitionRecoverableException;
+use \Soap\EloquentWorkflow\Transition;
+use \Soap\EloquentWorkflow\Exceptions\TransitionRecoverableException;
 
 Transition::make('new', 'review')
     ->before(function(Article $model) {
@@ -269,8 +269,8 @@ In some cases workflow routes may divide into branches. Way to go forced by busi
 To completely remove transition from a list, prerequisite should throw a `TransitionFatalException`.
 
 ```php
-use \Codewiser\Workflow\Transition;
-use \Codewiser\Workflow\Exceptions\TransitionFatalException;
+use \Soap\EloquentWorkflow\Transition;
+use \Soap\EloquentWorkflow\Exceptions\TransitionFatalException;
 
 Transition::make('new', 'to-local-manager')
     ->before(function(Order $model) {
@@ -296,7 +296,7 @@ Sometimes application requires an additional context to perform a transition. Fo
 First, declare validation rules in transition definition:
 
 ```php
-use \Codewiser\Workflow\Transition;
+use \Soap\EloquentWorkflow\Transition;
 
 Transition::make('review', 'reject')
     ->rules([
@@ -309,7 +309,7 @@ Next, set the transition context in the controller:
 ```php
 use Illuminate\Http\Request;
 
-public function update(Request $request, \Codewiser\Workflow\Example\Article $article)
+public function update(Request $request, \Soap\EloquentWorkflow\Example\Article $article)
 {
     $this->authorize('update', $article);
     
@@ -334,9 +334,9 @@ After all you may handle this context in [events](#events).
 You may define `State` and `Transition` objects with translatable caption.
 
 ```php
-use \Codewiser\Workflow\State;
-use \Codewiser\Workflow\Transition;
-use \Codewiser\Workflow\WorkflowBlueprint;
+use \Soap\EloquentWorkflow\State;
+use \Soap\EloquentWorkflow\Transition;
+use \Soap\EloquentWorkflow\WorkflowBlueprint;
 
 class ArticleWorkflow extends WorkflowBlueprint
 {
@@ -361,9 +361,9 @@ class ArticleWorkflow extends WorkflowBlueprint
 Sometimes we need to add some additional attributes to the workflow states and transitions. For example, we may group states by levels and use this information to color states and transitions in user interface.
 
 ```php
-use \Codewiser\Workflow\State;
-use \Codewiser\Workflow\Transition;
-use \Codewiser\Workflow\WorkflowBlueprint;
+use \Soap\EloquentWorkflow\State;
+use \Soap\EloquentWorkflow\Transition;
+use \Soap\EloquentWorkflow\WorkflowBlueprint;
 
 class ArticleWorkflow extends WorkflowBlueprint
 {
@@ -395,7 +395,7 @@ For user to interact with model's workflow we should pass the data to a frontend
 ```php
 use Illuminate\Http\Request;
 
-public function state(\Codewiser\Workflow\Example\Article $article)
+public function state(\App\Models\Article $article)
 {    
     return $article->state()->toArray();
 }
@@ -439,7 +439,7 @@ You may define state callback(s), that will be called then state is reached.
 Callback is a `callable` with `Model` and `context` arguments.
 
 ```php
-use \Codewiser\Workflow\State;
+use \Soap\EloquentWorkflow\State;
 
 State::make('correcting')
     ->after(function(Article $article, ?State $previous, array $context) {
@@ -458,8 +458,8 @@ You may define transition callback(s), that will be called after transition were
 Callback is a `callable` with `Model` and `context` arguments.
 
 ```php
-use \Codewiser\Workflow\State;
-use \Codewiser\Workflow\Transition;
+use \Soap\EloquentWorkflow\State;
+use \Soap\EloquentWorkflow\Transition;
 
 Transition::make('review', 'correcting')
     ->rules([
@@ -481,7 +481,7 @@ You may define few callbacks to a single transition.
 Transition generates `ModelTransited` event. You may define `EventListener` to listen to it.
 
 ```php
-use \Codewiser\Workflow\Events\ModelTransited;
+use \Soap\EloquentWorkflow\Events\ModelTransited;
 
 class ModelTransitedListener
 {
@@ -523,15 +523,15 @@ Add `workflow.logging` into `config/services.php`:
 
 It's done.
 
-To get historical records, add `\Codewiser\Workflow\Traits\HasTransitionHistory` to `Model` with workflow. It brings `transitions` relation.
+To get historical records, add `\Soap\EloquentWorkflow\Traits\HasTransitionHistory` to `Model` with workflow. It brings `transitions` relation.
 
-Historical records presented by `\Codewiser\Workflow\Models\TransitionHistory` model, that holds information about transition performer, source and target states and a context, if it were provided.
+Historical records presented by `\Soap\EloquentWorkflow\Models\TransitionHistory` model, that holds information about transition performer, source and target states and a context, if it were provided.
 
 ### Blueprint Validation
 
 The Package may validate Workflow Blueprint that you defined.
 
-Register `\Codewiser\Workflow\WorkflowServiceProvider` in `providers` section of `config/app.php`.
+Register `\Soap\EloquentWorkflow\WorkflowServiceProvider` in `providers` section of `config/app.php`.
 
 Run console command with blueprint classname:
 
